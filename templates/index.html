@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Movie Watchlist</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+
+    <body>
+
+        <header class="app-header">
+            <div>
+                <p class="eyebrow">MY MOVIES</p>
+                <h1>Movie Watchlist</h1>
+                <p class="page-subtitle">
+                    Keep track of what you've watched and what you want to watch.
+                </p>
+            </div>
+
+            <a class="add-movie-link" href="/add">
+                + Add Movie
+            </a>
+        </header>
+
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <span>❤️ Favorites</span>
+                <strong>{{ favorite_movies }}</strong>
+            </div>
+
+            <div class="stat-card">
+                <span>✓ Watched</span>
+                <strong>{{ watched_movies }}</strong>
+            </div>
+
+            <div class="stat-card">
+                <span>📋 Watchlist</span>
+                <strong>{{ watchlist_movies }}</strong>
+            </div>
+
+            {% if average_rating %}
+                <div class="stat-card">
+                    <span>⭐ Average Rating</span>
+                    <strong>{{ average_rating }}/10</strong>
+                </div>
+            {% endif %}
+
+        </section>
+
+
+        <section class="search-section">
+
+            <form action="/search" method="get">
+
+                <input
+                    type="text"
+                    name="q"
+                    placeholder="Search for a movie..."
+                    required
+                >
+
+                <button type="submit">
+                    Search
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <section class="filter-bar">
+
+            <div class="filter-group">
+                <a href="/">All</a>
+                <a href="/?status=Watchlist">Watchlist</a>
+                <a href="/?status=Watched">Watched</a>
+                <a href="/?favorite=1">Favorites</a>
+            </div>
+
+            <div class="filter-group">
+                <a href="/?sort=high">Rating: High → Low</a>
+                <a href="/?sort=low">Rating: Low → High</a>
+                <a href="/?sort=newest">Newest</a>
+                <a href="/?sort=oldest">Oldest</a>
+            </div>
+
+        </section>
+
+
+        <section class="recent-section">
+
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">YOUR LIBRARY</p>
+                    <h2>All Movies</h2>
+                </div>
+            </div>
+
+
+            <div class="movie-list">
+
+                {% for movie in movies %}
+
+                    <article class="movie-card">
+                            {% if movie.poster_url %}
+    <img
+        class="movie-card-poster"
+        src="{{ movie.poster_url }}"
+        alt="Poster for {{ movie.title }}"
+    >
+{% endif %}
+                        <div class="movie-card-content">
+
+                            <div class="movie-card-title">
+
+                                {% if movie.favorite %}
+                                    <span class="favorite-icon">❤️</span>
+                                {% endif %}
+
+                                <h2>
+                                    <a href="/movie/{{ movie.id }}">
+                                        {{ movie.title }}
+                                    </a>
+                                </h2>
+
+                            </div>
+
+
+                            <div class="movie-meta">
+
+                                {% if movie.year %}
+                                    <span>{{ movie.year }}</span>
+                                {% endif %}
+
+                                {% if movie.genre %}
+                                    <span>{{ movie.genre }}</span>
+                                {% endif %}
+
+                                <span class="status-badge {{ movie.status|lower }}">
+                                    {{ movie.status }}
+                                </span>
+
+                            </div>
+
+
+                            {% if movie.rating %}
+                                <p class="movie-rating">
+                                    ⭐ {{ movie.rating }}/10
+                                </p>
+                            {% endif %}
+
+
+                            {% if movie.note %}
+                                <p class="movie-note">
+                                    "{{ movie.note }}"
+                                </p>
+                            {% endif %}
+
+                        </div>
+
+
+                        <div class="movie-card-actions">
+
+                            <a
+                                class="edit-link"
+                                href="/edit/{{ movie.id }}"
+                            >
+                                Edit
+                            </a>
+
+
+                            <form
+                                action="/favorite/{{ movie.id }}"
+                                method="post"
+                            >
+
+                                {% if movie.favorite %}
+
+                                    <button type="submit">
+                                        ❤️
+                                    </button>
+
+                                {% else %}
+
+                                    <button type="submit">
+                                        ♡
+                                    </button>
+
+                                {% endif %}
+
+                            </form>
+
+
+                            <form
+                                action="/status/{{ movie.id }}"
+                                method="post"
+                            >
+
+                                {% if movie.status == "Watchlist" %}
+
+                                    <button type="submit">
+                                        Mark Watched
+                                    </button>
+
+                                {% else %}
+
+                                    <button type="submit">
+                                        Watchlist
+                                    </button>
+
+                                {% endif %}
+
+                            </form>
+
+
+                            <form
+                                action="/delete/{{ movie.id }}"
+                                method="post"
+                                onsubmit="return confirm('Delete this movie?');"
+                            >
+
+                                <button
+                                    class="delete-button"
+                                    type="submit"
+                                >
+                                    Delete
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </article>
+
+                {% else %}
+
+                    <div class="empty-state">
+
+                        <h2>Your library is empty</h2>
+
+                        <p>
+                            Search for a movie or add one manually to get started.
+                        </p>
+
+                        <a class="add-movie-link" href="/add">
+                            + Add Your First Movie
+                        </a>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    </body>
+</html>

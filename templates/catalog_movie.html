@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ movie.title }}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+
+<body>
+    <main class="movie-detail">
+        <a class="back-link" href="/search">← Back to Search</a>
+
+        <section class="movie-detail-card">
+            <h1>{{ movie.title }}</h1>
+
+            {% if tmdb %}
+                <div class="tmdb-feature">
+
+                    {% if tmdb.poster_url %}
+                        <img
+                            class="movie-poster"
+                            src="{{ tmdb.poster_url }}"
+                            alt="Poster for {{ movie.title }}"
+                        >
+                    {% endif %}
+
+                    <div class="tmdb-copy">
+                        <h2>Overview</h2>
+
+                        {% if tmdb.overview %}
+                            <p>{{ tmdb.overview }}</p>
+                        {% else %}
+                            <p>No overview available.</p>
+                        {% endif %}
+
+                        {% if tmdb.runtime %}
+                            <p>
+                                <strong>Runtime:</strong>
+                                {{ tmdb.runtime }} minutes
+                            </p>
+                        {% endif %}
+
+                        {% if tmdb.director %}
+                            <p>
+                                <strong>Director:</strong>
+                                {{ tmdb.director }}
+                            </p>
+                        {% endif %}
+
+                        {% if tmdb.cast %}
+                            <p>
+                                <strong>Cast:</strong>
+                                {{ tmdb.cast | join(", ") }}
+                            </p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <p class="tmdb-credit">
+                    This product uses the TMDB API but is not endorsed or certified by TMDB.
+                </p>
+            {% else %}
+                <p>Movie details are not available.</p>
+            {% endif %}
+
+            <div class="detail-info">
+                <p><strong>Year:</strong> {{ movie.year }}</p>
+                <p><strong>Genre:</strong> {{ movie.genre }}</p>
+            </div>
+
+<div class="detail-actions">
+
+    {% if existing %}
+
+        {% if existing[0]["status"] == "Watchlist" %}
+            <span class="edit-link">
+                ✓ In Watchlist
+            </span>
+
+            <form action="/status/{{ existing[0]['id'] }}" method="post">
+                <button type="submit">
+                    ✓ Mark as Watched
+                </button>
+            </form>
+
+        {% else %}
+            <span class="edit-link">
+                ✓ Watched
+            </span>
+
+            <form action="/status/{{ existing[0]['id'] }}" method="post">
+                <button type="submit">
+                    ↩ Move to Watchlist
+                </button>
+            </form>
+        {% endif %}
+
+        {% if existing[0]["favorite"] %}
+            <form action="/favorite/{{ existing[0]['id'] }}" method="post">
+                <button type="submit">
+                    ❤️ Remove from Favorites
+                </button>
+            </form>
+        {% else %}
+            <form action="/favorite/{{ existing[0]['id'] }}" method="post">
+                <button type="submit">
+                    ♡ Add to Favorites
+                </button>
+            </form>
+        {% endif %}
+
+    {% else %}
+
+        <form action="/add_from_catalog" method="post">
+            <input
+                type="hidden"
+                name="movie_id"
+                value="{{ movie.id }}"
+            >
+            <button type="submit">
+                + Add to Watchlist
+            </button>
+        </form>
+<form action="/add_watched_from_catalog" method="post">
+    <input
+        type="hidden"
+        name="movie_id"
+        value="{{ movie.id }}"
+    >
+    <button type="submit">
+        + Add to Watched
+    </button>
+</form>
+    {% endif %}
+
+</div>
+        </section>
+    </main>
+</body>
+</html>
