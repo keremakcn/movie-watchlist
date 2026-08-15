@@ -175,20 +175,22 @@ Planned improvements may include:
 ---
 ## 📸 Screenshots
 ### Home, Movie Details, Search
-![SS00](screenshots/1.png)
+![homepage](screenshots/homepaged.png)
 
-![SS01](screenshots/movie_details.png)
+![search](screenshots/search.png)
 
-![SS03](screenshots/3.png)
+![movie_details](screenshots/movie_details.png)
 
-![SS04](screenshots/add_notes_andrank.png)
+![add_notes_andrank](screenshots/add_notes_andrank.png)
 
 
-![SS05](screenshots/0.png)
+![add_custom_movie](screenshots/add_custom_movie.png)
 
-![SS06](screenshots/3.png)
+![filteredrating](screenshots/filteredrating.png)
 
-![SS07](screenshots/add_custom_movie.png) 
+![homefilteredwatchlist](screenshots/homefilteredwatchlist.png) 
+
+![homefilteredwatchlist](screenshots/homefilteredwatgced.png) 
 
 ## 📌 Version
 
