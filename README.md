@@ -175,13 +175,20 @@ Planned improvements may include:
 ---
 ## 📸 Screenshots
 ### Home, Movie Details, Search
-![SS0](screenshots/0.png)
+![SS00](screenshots/1.png)
 
-![SS01](screenshots/1.png)
-
-![SS02](screenshots/3.png)
+![SS01](screenshots/movie_details.png)
 
 ![SS03](screenshots/3.png)
+
+![SS04](screenshots/add_notes_andrank.png)
+
+
+![SS05](screenshots/0.png)
+
+![SS06](screenshots/3.png)
+
+![SS07](screenshots/add_custom_movie.png) 
 
 ## 📌 Version
 
