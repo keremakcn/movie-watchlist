@@ -173,6 +173,15 @@ Planned improvements may include:
 - Movie recommendations
 
 ---
+## 📸 Screenshots
+### Home, Movie Details, Search
+![SS0](screenshots/0.png)
+
+![SS01](screenshots/1.png)
+
+![SS02](screenshots/3.png)
+
+![SS03](screenshots/3.png)
 
 ## 📌 Version
 
